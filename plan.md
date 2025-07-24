@@ -353,9 +353,9 @@ export default apiClient;
 
 -----
 
-## Section 5: Deployment on Railway
+## Section 5: Deployment on Railway (Docker-based)
 
-Deploying this monorepo to Railway is straightforward and does not require Docker.
+Deploying this monorepo to Railway will now leverage Dockerfiles for explicit control over the build and deployment process for each service.
 
 **1. Initial Setup:**
 
@@ -364,15 +364,13 @@ Deploying this monorepo to Railway is straightforward and does not require Docke
 
 **2. Provision the Database Service:**
 
-  * Click "Add a service" and choose "Database" -\> "PostgreSQL". Railway will automatically provision the database and provide a `DATABASE_URL` environment variable.
+  * Click "Add a service" and choose "Database" -> "PostgreSQL". Railway will automatically provision the database and provide a `DATABASE_URL` environment variable.
 
-**3. Configure the Backend Service:**
+**3. Configure the Backend Service (using Dockerfile):**
 
-  * Railway will likely auto-detect the `server` package. If not, add a new service pointing to the GitHub repo.
-  * In the service's "Settings" tab:
-      * **Root Directory:** `./packages/server`
-      * **Build Command:** `pnpm install && pnpm prisma generate && pnpm tsc`
-      * **Start Command:** `node dist/index.js`
+  * Add a new service pointing to the GitHub repo.
+  * Select **"Docker Image"** or **"Deploy from Dockerfile"**.
+  * **Dockerfile Path:** `./packages/server/Dockerfile`
   * **Environment Variables:**
       * `DATABASE_URL`: Railway will inject this from the PostgreSQL service. Reference it via `${{PostgreSQL.DATABASE_URL}}`.
       * `GEMINI_API_KEY`: Your private key for the Google Gemini API.
@@ -382,17 +380,15 @@ Deploying this monorepo to Railway is straightforward and does not require Docke
       * `GOOGLE_CLIENT_SECRET`: Your Google OAuth Client Secret.
       * `PORT`: Railway injects this automatically.
 
-**4. Configure the Frontend Service:**
+**4. Configure the Frontend Service (using Dockerfile):**
 
   * Add another new service pointing to the same GitHub repo.
-  * In the service's "Settings" tab:
-      * **Root Directory:** `./packages/client`
-      * **Build Command:** `pnpm install && pnpm build`
-      * **Start Command:** `npx serve -s dist -l 3000` (Install `serve` as a dev dependency in the client: `pnpm add -D serve`).
+  * Select **"Docker Image"** or **"Deploy from Dockerfile"**.
+  * **Dockerfile Path:** `./packages/client/Dockerfile`
   * **Environment Variables:**
       * `VITE_API_BASE_URL`: The public URL of your deployed backend service (e.g., `https://vessel-finance-copilot-server.up.railway.app/api`).
       * `VITE_GOOGLE_CLIENT_ID`: Your Google OAuth Client ID (this needs to be exposed to the client).
-      * `PORT`: Railway injects this automatically. The start command above maps it to port 3000.
+      * `PORT`: Railway injects this automatically.
 
 -----
 

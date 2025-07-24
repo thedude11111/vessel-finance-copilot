@@ -1,0 +1,44 @@
+# Use a Node.js base image for building
+FROM node:20-alpine AS base
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy root package.json and pnpm-workspace.yaml
+COPY package.json pnpm-workspace.yaml ./ 
+
+# Copy shared-types package
+COPY packages/shared-types/ packages/shared-types/
+
+# Copy client package
+COPY packages/client/ packages/client/
+
+# Install pnpm via corepack
+RUN npm install -g corepack@0.24.1 && corepack enable
+
+# Install dependencies for the entire monorepo
+RUN pnpm install --frozen-lockfile
+
+# Build shared-types first
+RUN pnpm --filter shared-types build
+
+# Build the client application
+RUN pnpm --filter client build
+
+# --- Production Stage ---
+FROM node:20-alpine AS production
+
+# Set working directory
+WORKDIR /app
+
+# Install serve for static file serving
+RUN npm install -g serve
+
+# Copy only the built client application
+COPY --from=base /app/packages/client/dist/ ./dist/
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the client
+CMD ["serve", "-s", "dist", "-l", "3000"]

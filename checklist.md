@@ -18,7 +18,7 @@
 - [x] Create Gemini API service in `packages/server/src/services/geminiService.ts`.
 - [x] Implement authentication endpoints.
 - [x] Implement analysis management endpoints.
-- [ ] Implement AI and calculation endpoints:
+- [x] Implement AI and calculation endpoints:
   - [x] Implement logic to save extracted parameters as `VesselParameter` records.
   - [x] Implement complex financial calculations and save results to `AnalysisResult` table.
 - [x] Implement a centralized error handling middleware.
@@ -47,5 +47,8 @@
 - [x] Consider adding `dialog` components for user interactions.
 
 ## Phase 3: Deployment
-- [ ] Prepare for Railway deployment.
 - [x] Add `serve` dependency to client for production server.
+- [x] Create `packages/server/Dockerfile`.
+- [x] Create `packages/client/Dockerfile`.
+- [x] Update `plan.md` to reflect Docker-based deployment.
+- [ ] Configure Railway services to use Dockerfiles.
