@@ -17,8 +17,7 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "shared-types": ["../shared-types/dist"]
+      "@/*": ["./src/*"]
     },
 
     /* Linting */
@@ -27,6 +26,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../shared-types/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
