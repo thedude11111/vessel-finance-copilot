@@ -370,7 +370,7 @@ Deploying this monorepo to Railway will now leverage Dockerfiles for explicit co
 
   * Add a new service pointing to the GitHub repo.
   * Select **"Docker Image"** or **"Deploy from Dockerfile"**.
-  * **Dockerfile Path:** `./packages/server/Dockerfile`
+  * **Dockerfile Path:** `./Dockerfile.server`
   * **Environment Variables:**
       * `DATABASE_URL`: Railway will inject this from the PostgreSQL service. Reference it via `${{PostgreSQL.DATABASE_URL}}`.
       * `GEMINI_API_KEY`: Your private key for the Google Gemini API.
@@ -384,7 +384,7 @@ Deploying this monorepo to Railway will now leverage Dockerfiles for explicit co
 
   * Add another new service pointing to the same GitHub repo.
   * Select **"Docker Image"** or **"Deploy from Dockerfile"**.
-  * **Dockerfile Path:** `./packages/client/Dockerfile`
+  * **Dockerfile Path:** `./Dockerfile.client`
   * **Environment Variables:**
       * `VITE_API_BASE_URL`: The public URL of your deployed backend service (e.g., `https://vessel-finance-copilot-server.up.railway.app/api`).
       * `VITE_GOOGLE_CLIENT_ID`: Your Google OAuth Client ID (this needs to be exposed to the client).

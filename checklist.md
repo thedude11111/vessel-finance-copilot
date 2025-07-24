@@ -48,7 +48,7 @@
 
 ## Phase 3: Deployment
 - [x] Add `serve` dependency to client for production server.
-- [x] Create `packages/server/Dockerfile`.
-- [x] Create `packages/client/Dockerfile`.
+- [x] Create `Dockerfile.server`.
+- [x] Create `Dockerfile.client`.
 - [x] Update `plan.md` to reflect Docker-based deployment.
 - [ ] Configure Railway services to use Dockerfiles.
